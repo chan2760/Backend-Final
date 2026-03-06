@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: backend-final
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB
+        value: wad_01
+      - key: MONGODB_USER_COLLECTION
+        value: users
+      - key: MONGODB_BOOK_COLLECTION
+        value: books
+      - key: MONGODB_BORROW_COLLECTION
+        value: borrow_requests
+      - key: ADMIN_SETUP_PASS
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false

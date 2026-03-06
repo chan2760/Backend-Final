@@ -58,3 +58,7 @@ Optional index setup endpoint:
 ```bash
 GET /admin/initial?pass=<ADMIN_SETUP_PASS>
 ```
+
+
+## Render Blueprint
+This repo includes `render.yaml` for quick Render deployment.
