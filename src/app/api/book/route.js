@@ -26,7 +26,7 @@ export async function OPTIONS(req) {
 }
 
 export async function GET(req) {
-  const { user, error } = requireAuth(req, [ROLES.ADMIN, ROLES.USER]);
+  const { error } = requireAuth(req, [ROLES.ADMIN, ROLES.USER]);
   if (error) {
     return error;
   }
@@ -38,7 +38,6 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const title = String(searchParams.get("title") || "").trim();
     const author = String(searchParams.get("author") || "").trim();
-    const includeDeleted = searchParams.get("includeDeleted") === "true";
 
     const query = {};
 
@@ -50,9 +49,8 @@ export async function GET(req) {
       query.author = { $regex: escapeRegex(author), $options: "i" };
     }
 
-    if (user.role !== ROLES.ADMIN || !includeDeleted) {
-      query.status = BOOK_STATUS.ACTIVE;
-    }
+    // MODIFIED: always hide soft-deleted books from list API for all roles.
+    query.status = BOOK_STATUS.ACTIVE;
 
     const books = await db
       .collection(BOOK_COLLECTION)

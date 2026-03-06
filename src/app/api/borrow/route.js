@@ -90,11 +90,10 @@ export async function GET(req) {
       book: item.bookId ? booksById.get(String(item.bookId)) || null : null,
     }));
 
-    // MODIFIED: hide borrow records linked to deleted books for USER role.
-    const visibleRequests =
-      user.role === ROLES.USER
-        ? mappedRequests.filter((item) => item.book?.status !== BOOK_STATUS.DELETED)
-        : mappedRequests;
+    // MODIFIED: hide borrow records linked to deleted books for all roles.
+    const visibleRequests = mappedRequests.filter(
+      (item) => item.book?.status !== BOOK_STATUS.DELETED
+    );
 
     return responseJson(
       {

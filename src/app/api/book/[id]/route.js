@@ -46,7 +46,7 @@ export async function OPTIONS(req) {
 
 export async function GET(req, { params }) {
   const routeParams = await params;
-  const { user, error } = requireAuth(req, [ROLES.ADMIN, ROLES.USER]);
+  const { error } = requireAuth(req, [ROLES.ADMIN, ROLES.USER]);
   if (error) {
     return error;
   }
@@ -75,7 +75,8 @@ export async function GET(req, { params }) {
       return responseMessage("Book not found", 404);
     }
 
-    if (user.role !== ROLES.ADMIN && book.status === BOOK_STATUS.DELETED) {
+    // MODIFIED: hide soft-deleted books from detail API for all roles.
+    if (book.status === BOOK_STATUS.DELETED) {
       return responseMessage("Book not found", 404);
     }
 
