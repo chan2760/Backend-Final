@@ -1,3 +1,4 @@
+// MODIFIED: CORS origin is now configurable via env for deployment.
 const allowedOrigin = process.env.CORS_ORIGIN || "http://localhost:5173";
 
 const corsHeaders = {

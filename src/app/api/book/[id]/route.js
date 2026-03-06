@@ -19,6 +19,7 @@ function resolveBookId(params) {
   const rawId = String(params?.id ?? "").trim();
   const normalized = rawId.toLowerCase();
 
+  // MODIFIED: guard placeholder/invalid dynamic route values like [id] or undefined.
   const isPlaceholder =
     !rawId ||
     rawId === "[id]" ||
